@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@types/fs-extra": "9.0.1",
-    "@types/jest": "26.0.8",
+    "@types/jest": "26.0.24",
     "@types/js-yaml": "3.12.5",
     "@types/linq": "2.2.33",
     "@types/mustache": "4.0.1",
