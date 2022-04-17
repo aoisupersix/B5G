@@ -1,5 +1,3 @@
-import linq from 'linq'
-
 import { MapStatement } from '../statements/map-statement'
 import { MapData } from '../map-data/map-data'
 
@@ -8,25 +6,25 @@ import { MapData } from '../map-data/map-data'
  * @param statements IMapStatements
  */
 export const createMapData = (statements: MapStatement[]): MapData => {
-    const elementNames = linq
-        .from(statements)
-        .select((state) => state.elem)
-        .distinct()
-        .toArray()
-    const subElementNames = linq
-        .from(statements)
-        .where((state) => state.sub_elem !== undefined)
-        .select((state) => state.sub_elem)
-        .cast<string>()
-        .distinct()
-        .toArray()
-    const functionNames = linq
-        .from(statements)
-        .where((state) => state.func !== undefined)
-        .select((state) => state.func)
-        .cast<string>()
-        .distinct()
-        .toArray()
+    const elementNames = Array.from(
+        new Set(statements.map((state) => state.elem))
+    )
+    const subElementNames = Array.from(
+        new Set(
+            statements
+                .filter((state) => state.sub_elem !== undefined)
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                .map((state) => state.sub_elem!)
+        )
+    )
+    const functionNames = Array.from(
+        new Set(
+            statements
+                .filter((state) => state.func !== undefined)
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                .map((state) => state.func!)
+        )
+    )
 
     return {
         states: statements,

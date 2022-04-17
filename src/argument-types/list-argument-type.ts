@@ -1,5 +1,3 @@
-import Enumerable from 'linq'
-
 import { ArgumentType } from './argument-type'
 import { Argument } from '../arguments/argument'
 import { ArgumentDefinition } from '../definition/arguments/argument-definition'
@@ -56,21 +54,19 @@ export class ListArgumentType extends ArgumentType {
         start: number,
         count: number
     ): SingleArgument[] {
-        const args = Enumerable.range(start, count)
-            .select(
-                () =>
-                    ({
-                        name: name,
-                        type: type.type,
-                        desc: description,
-                        opt: true,
-                        last: false,
-                        test_value_map_grammar: type.bve5TestValue,
-                        test_value_map_grammar_non_quote: type.rowTestValue,
-                        test_value_csharp: type.csharpTestValue,
-                    } as SingleArgument)
-            )
-            .toArray()
+        const args = Array.from(Array(count), (v, k) => k + start).map(
+            () =>
+                ({
+                    name: name,
+                    type: type.type,
+                    desc: description,
+                    opt: true,
+                    last: false,
+                    test_value_map_grammar: type.bve5TestValue,
+                    test_value_map_grammar_non_quote: type.rowTestValue,
+                    test_value_csharp: type.csharpTestValue,
+                } as SingleArgument)
+        )
 
         args[0].opt = false
         args.slice(-1)[0].last = true

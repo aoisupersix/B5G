@@ -1,5 +1,3 @@
-import linq from 'linq'
-
 import * as mapDef from '../definition/map-definition'
 import { MapStatement } from '../statements/map-statement'
 import { convertArguments } from './convert-argument'
@@ -51,7 +49,7 @@ const createArgPattern = (
         })
 
     if (args.length > 0) {
-        linq.from(args).last(undefined).last = true
+        args.slice(-1)[0].last = true
     }
 
     return {
@@ -71,7 +69,7 @@ const createArgPatterns = (
     mapDefinition: mapDef.MapDefinition,
     targetArguments: Argument[]
 ): ArgumentPattern[] => {
-    const patterns = linq.from(mapDefinition.versions).selectMany((version) => {
+    const patterns = mapDefinition.versions.flatMap((version) => {
         if (mapDefinition.argPatterns.length === 0) {
             return [createArgPattern('', version, targetArguments)]
         }
@@ -81,7 +79,7 @@ const createArgPatterns = (
         )
     })
 
-    return patterns.toArray()
+    return patterns
 }
 
 /**
