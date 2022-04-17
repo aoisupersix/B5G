@@ -25,7 +25,7 @@ export const assertSetIListArgumentTestValue = (
     argument: ListArgument,
     type: SingleArgumentType
 ): void => {
-    argument.inner_arguments.forEach(innerArg => {
+    argument.inner_arguments.forEach((innerArg) => {
         assertSetISingleArgumentTestValue(innerArg, type)
     })
 }

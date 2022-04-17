@@ -8,8 +8,8 @@ import { MapData } from './map-data/map-data'
  */
 export const render = (template: string, mapData: MapData): string => {
     handlebars.registerHelper('toLowerCase', function (str: string) {
-        return str.toLowerCase();
-    });
+        return str.toLowerCase()
+    })
     const compiledTemplate = handlebars.compile(template)
     return compiledTemplate(mapData)
 }

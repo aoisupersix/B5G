@@ -31,6 +31,7 @@ export class ListArgumentType extends ArgumentType {
             inner_arguments: this.generateRangeArgs(
                 vArgDef.name,
                 vArgDef.desc,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 allSingleTypes.find((t) => t.isType(vArgDef.inner_type))!,
                 vArgDef.counter_first,
                 generateArgumentCount
@@ -57,7 +58,7 @@ export class ListArgumentType extends ArgumentType {
     ): SingleArgument[] {
         const args = Enumerable.range(start, count)
             .select(
-                (_) =>
+                () =>
                     ({
                         name: name,
                         type: type.type,

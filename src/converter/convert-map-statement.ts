@@ -91,6 +91,7 @@ const createArgPatterns = (
 export const convertMapStatement = (
     mapDefinition: mapDef.MapDefinition
 ): MapStatement => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const statement: MapStatement = mapDefinition as any
 
     // 種別判定
@@ -103,9 +104,11 @@ export const convertMapStatement = (
     // 小文字
     statement.elem_lower = mapDefinition.elem.toLowerCase()
     if (mapDef.hasSubElem(mapDefinition)) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         statement.sub_elem_lower = mapDefinition.sub_elem!.toLowerCase()
     }
     if (mapDef.hasFunc(mapDefinition)) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         statement.func_lower = mapDefinition.func!.toLowerCase()
     }
 

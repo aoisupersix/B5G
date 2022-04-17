@@ -1,5 +1,5 @@
 import { Argument } from './argument'
-import { SingleArgument } from './single-argument';
+import { SingleArgument } from './single-argument'
 
 /**
  * List型の引数を示します。

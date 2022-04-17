@@ -8,6 +8,7 @@ import { allTypes } from '../argument-types/all-types'
  */
 export const convertArguments = (argDefs: ArgumentDefinition[]): Argument[] => {
     const args = argDefs.map((argDef) =>
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         allTypes
             .find((t) => t.isType(argDef.type))!
             .convertDefinitionToArgument(argDef)

@@ -13,7 +13,7 @@
     "cpdef": "cpx src/mapgrammar.yaml ./out",
     "cpdef_watch": "cpx src/mapgrammar.yaml ./out --watch",
     "test": "jest",
-    "lint": "tslint 'src/**/*.ts'"
+    "lint": "eslint 'src/**/*.ts'"
   },
   "author": "aoisupersix",
   "license": "MIT",

@@ -5,30 +5,32 @@ import { SingleArgument } from '../../arguments/single-argument'
 import { ListArgument } from '../../arguments/list-argument'
 import { doubleArgumentType } from '../../argument-types/double-argument-type'
 import { stringArgumentType } from '../../argument-types/string-argument-type'
-import { assertSetISingleArgumentTestValue, assertSetIListArgumentTestValue } from '../helper/assert-set-iargument-testvalue'
+import {
+    assertSetISingleArgumentTestValue,
+    assertSetIListArgumentTestValue,
+} from '../helper/assert-set-iargument-testvalue'
 
 describe('convertArguments', () => {
     let fixedLengthArgDef: FixedLengthArgumentDefinition
     let variableLengthArgDef: VariableLengthArgumentDefinition
 
     beforeEach(
-        () =>
-            (
-                fixedLengthArgDef = {
-                    name: 'test',
-                    type: 'string',
-                    desc: 'test fixed length argument',
-                    opt: false,
-                },
-                variableLengthArgDef = {
-                    name: 'test',
-                    type: 'list',
-                    desc: 'test variable length argument',
-                    opt: false,
-                    counter_first: 0,
-                    inner_type: 'string'
-                }
-            )
+        () => (
+            (fixedLengthArgDef = {
+                name: 'test',
+                type: 'string',
+                desc: 'test fixed length argument',
+                opt: false,
+            }),
+            (variableLengthArgDef = {
+                name: 'test',
+                type: 'list',
+                desc: 'test variable length argument',
+                opt: false,
+                counter_first: 0,
+                inner_type: 'string',
+            })
+        )
     )
 
     it('no argument', () => {
