@@ -21,7 +21,7 @@ export const getDefaultMapData = (): Promise<MapData> => {
                 reject(err)
             }
 
-            const definition = yaml.safeLoad(yamlData)
+            const definition = yaml.load(yamlData)
             if (!definition || typeof definition === 'string'){
                 reject('Failed to load default map data.')
             }

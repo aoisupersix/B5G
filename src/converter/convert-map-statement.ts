@@ -51,7 +51,7 @@ const createArgPattern = (
         })
 
     if (args.length > 0) {
-        linq.from(args).lastOrDefault(undefined).last = true
+        linq.from(args).last(undefined).last = true
     }
 
     return {

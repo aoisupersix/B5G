@@ -1,4 +1,4 @@
-import * as Enumerable from 'linq'
+import Enumerable from 'linq'
 
 import { ArgumentType } from './argument-type'
 import { Argument } from '../arguments/argument'
