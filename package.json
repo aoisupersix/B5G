@@ -1,6 +1,6 @@
 {
   "name": "b5g",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Convenience package to generate templates around Bve5 syntax",
   "main": "out/index.js",
   "types": "out/index.d.ts",
