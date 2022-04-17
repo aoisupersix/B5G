@@ -10,8 +10,7 @@
   "scripts": {
     "build": "tsc && npm run cpdef",
     "prepare": "npm run build",
-    "cpdef": "cpx src/mapgrammar.yaml ./out",
-    "cpdef_watch": "cpx src/mapgrammar.yaml ./out --watch",
+    "cpdef": "cpy --flat src/mapgrammar.yaml ./out",
     "test": "jest",
     "lint": "eslint 'src/**/*.ts'"
   },
@@ -40,8 +39,7 @@
     "@types/node": "17.0.24",
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
-    "chokidar": "3.5.3",
-    "cpx": "1.5.0",
+    "cpy-cli": "^4.1.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
