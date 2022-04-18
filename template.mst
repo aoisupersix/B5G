@@ -1,0 +1,60 @@
+import { execParseSingleStatement, assertMapAstNode } from './util'
+import * as ast from '@bvetree/ast/src/map-v2'
+
+describe('MapV2Parser', () => {
+  describe('#parse_map_function', () => {
+    {{#each states}}
+    {{#each argPattern}}
+    {{#if (eq version '2.02')}}
+    {{#unless ../nofunc}}
+    it('parse {{../elem}}{{#if ../key}}[{{../key}}]{{/if}}{{#if ../sub_elem}}.{{../sub_elem}}{{/if}}.{{../func}}({{#each args}}{{name}}{{#unless last}},{{/unless}}{{/each}})', () => {
+      const statement = execParseSingleStatement(
+        `{{../elem}}{{#if ../key}}['{{../key}}']{{/if}}{{#if ../sub_elem}}.{{../sub_elem}}{{/if}}.{{../func}}({{#each args}}{{test_value_map_grammar}}{{#unless last}},{{/unless}}{{/each}});`
+      ) as ast.MapFunctionWithKeyNode
+      assertMapAstNode(
+        statement,
+        {{#if ../syntax1}}
+        ast.NodeType.MapFunction,
+        {{/if}}
+        {{#if ../syntax2}}
+        ast.NodeType.MapFunctionWithKey,
+        {{/if}}
+        {{#if ../syntax3}}
+        ast.NodeType.MapFunctionWithKeyAndSubelement,
+        {{/if}}
+        1,
+        0,
+        1,
+        {{#if ../syntax1}}
+        {{math '4' '+' (sumlength ../elem ../func ../args)}},
+        {{/if}}
+        {{#if ../syntax2}}
+        {{math '7' '+' (sumlength ../elem ../key ../func ../args)}},
+        {{/if}}
+        {{#if ../syntax3}}
+        {{math '8' '+' (sumlength ../elem ../key ../sub_elem ../func ../args)}},
+        {{/if}}
+        `{{../elem}}{{#if ../key}}['{{../key}}']{{/if}}{{#if ../sub_elem}}.{{../sub_elem}}{{/if}}.{{../func}}({{#each args}}{{test_value_map_grammar}}{{#unless last}},{{/unless}}{{/each}});`
+      )
+      expect(statement.element).toBe('{{../elem}}')
+      expect(statement.function).toBe('{{../func}}')
+      expect(statement.arguments.length).toBe(2)
+
+      const key = statement.key as ast.ValueNode
+      assertMapAstNode(key, ast.NodeType.String, 1, 6, 1, 11, `'key'`)
+      expect(key.value).toBe('key')
+
+      const x = statement.arguments[0] as ast.ValueNode
+      assertMapAstNode(x, ast.NodeType.Number, 1, 22, 1, 23, '0')
+      expect(x.value).toBe('0')
+
+      const y = statement.arguments[1] as ast.ValueNode
+      assertMapAstNode(y, ast.NodeType.Number, 1, 25, 1, 26, '1')
+      expect(y.value).toBe('1')
+    })
+    {{/unless}}
+    {{/if}}
+    {{/each}}
+    {{/each}}
+  })
+})
