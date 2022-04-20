@@ -55,6 +55,9 @@ describe('convertArguments', () => {
         expect(arg[0].opt).toBe(variableLengthArgDef.opt)
         expect(arg[0].inner_type).toBe(variableLengthArgDef.inner_type)
         expect(arg[0].last).toBeTruthy()
+        expect(arg[0].syntax_for_test).toBe(
+            `'string_test_value','string_test_value','string_test_value','string_test_value','string_test_value'`
+        )
         expect(arg[0].is_list).toBeTruthy()
         assertSetIListArgumentTestValue(arg[0], stringArgumentType)
     })

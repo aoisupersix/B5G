@@ -12,17 +12,15 @@ export const createMapData = (statements: MapStatement[]): MapData => {
     const subElementNames = Array.from(
         new Set(
             statements
-                .filter((state) => state.sub_elem !== undefined)
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                .map((state) => state.sub_elem!)
+                .map((state) => state.sub_elem)
+                .filter((subElem): subElem is string => subElem !== undefined)
         )
     )
     const functionNames = Array.from(
         new Set(
             statements
-                .filter((state) => state.func !== undefined)
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                .map((state) => state.func!)
+                .map((state) => state.func)
+                .filter((func): func is string => func !== undefined)
         )
     )
 

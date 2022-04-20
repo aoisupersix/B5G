@@ -6,12 +6,40 @@ import { Argument } from '../arguments/argument'
 import { isMapVersion1, isMapVersion2 } from '../headers/map-version-detector'
 
 /**
+ * このパターンのマップ構文を示すテスト用の文字列を生成します。
+ * @param def マップ構文定義
+ * @param args 構文がとり得る引数
+ * @returns マップ構文を示す文字列。構文がとり得る引数のテスト用の値も出力される
+ */
+const generateSyntax = (
+    def: mapDef.MapDefinition,
+    args: Argument[]
+): string => {
+    const argSyntaxForTest = args.map((arg) => arg.syntax_for_test).join(',')
+    if (def.func === undefined) {
+        return `${def.elem} ${argSyntaxForTest};`
+    }
+    let elemAndFunc = `${def.elem}`
+    if (def.key !== undefined) {
+        elemAndFunc += `['${def.key}']`
+    }
+    if (def.sub_elem !== undefined) {
+        elemAndFunc += `.${def.sub_elem}`
+    }
+    elemAndFunc += `.${def.func}`
+
+    return `${elemAndFunc}(${argSyntaxForTest});`
+}
+
+/**
  * ArgumentPatternを生成します。
+ * @param mapDefinition マップ構文定義
  * @param patternString 引数名のカンマ区切り
  * @param version 使用するマップファイルバージョン
  * @param targetArguments 構文がとり得る引数
  */
 const createArgPattern = (
+    mapDefinition: mapDef.MapDefinition,
     patternString: string,
     version: string,
     targetArguments: Argument[]
@@ -57,6 +85,7 @@ const createArgPattern = (
         version: version,
         useV1Parser: isMapVersion1(version),
         useV2Parser: isMapVersion2(version),
+        syntax_for_test: generateSyntax(mapDefinition, args),
     }
 }
 
@@ -71,11 +100,18 @@ const createArgPatterns = (
 ): ArgumentPattern[] => {
     const patterns = mapDefinition.versions.flatMap((version) => {
         if (mapDefinition.argPatterns.length === 0) {
-            return [createArgPattern('', version, targetArguments)]
+            return [
+                createArgPattern(mapDefinition, '', version, targetArguments),
+            ]
         }
 
         return mapDefinition.argPatterns.map((argPattern) =>
-            createArgPattern(argPattern, version, targetArguments)
+            createArgPattern(
+                mapDefinition,
+                argPattern,
+                version,
+                targetArguments
+            )
         )
     })
 
@@ -89,33 +125,21 @@ const createArgPatterns = (
 export const convertMapStatement = (
     mapDefinition: mapDef.MapDefinition
 ): MapStatement => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const statement: MapStatement = mapDefinition as any
-
-    // 種別判定
-    statement.syntax1 = mapDef.isSyntax1(mapDefinition)
-    statement.syntax2 = mapDef.isSyntax2(mapDefinition)
-    statement.syntax3 = mapDef.isSyntax3(mapDefinition)
-    statement.nofunc = !mapDef.hasFunc(mapDefinition)
-    statement.noarg = !mapDef.hasArg(mapDefinition)
-
-    // 小文字
-    statement.elem_lower = mapDefinition.elem.toLowerCase()
-    if (mapDef.hasSubElem(mapDefinition)) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        statement.sub_elem_lower = mapDefinition.sub_elem!.toLowerCase()
-    }
-    if (mapDef.hasFunc(mapDefinition)) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        statement.func_lower = mapDefinition.func!.toLowerCase()
-    }
-
-    // 引数変換
     const args = convertArguments(mapDefinition.args)
-    statement.args = args
 
-    // 引数パターン生成
-    statement.argPattern = createArgPatterns(mapDefinition, args)
+    const statement: MapStatement = {
+        ...mapDefinition,
+        elem_lower: mapDefinition.elem.toLowerCase(),
+        sub_elem_lower: mapDefinition.sub_elem?.toLowerCase(),
+        func_lower: mapDefinition.func?.toLowerCase(),
+        syntax1: mapDef.isSyntax1(mapDefinition),
+        syntax2: mapDef.isSyntax2(mapDefinition),
+        syntax3: mapDef.isSyntax3(mapDefinition),
+        nofunc: !mapDef.hasFunc(mapDefinition),
+        noarg: !mapDef.hasArg(mapDefinition),
+        args: args,
+        argPattern: createArgPatterns(mapDefinition, args),
+    }
 
     return statement
 }

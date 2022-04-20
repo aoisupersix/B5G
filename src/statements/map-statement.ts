@@ -18,12 +18,12 @@ export interface MapStatement extends MapDefinition {
     /**
      * 小文字のマップ副要素名
      */
-    sub_elem_lower: string | null
+    sub_elem_lower?: string
 
     /**
      * 小文字の関数名
      */
-    func_lower: string | null
+    func_lower?: string
 
     /**
      * 構文タイプ1か？

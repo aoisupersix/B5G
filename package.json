@@ -2,6 +2,9 @@
   "name": "b5g",
   "version": "0.0.4",
   "description": "Convenience package to generate templates around Bve5 syntax",
+  "bin": {
+    "b5g": "out/cli.js"
+  },
   "main": "out/index.js",
   "types": "out/index.d.ts",
   "files": [
@@ -9,6 +12,7 @@
   ],
   "scripts": {
     "build": "tsc && npm run cpdef",
+    "watch": "tsc -w && npm run cpdef",
     "prepare": "npm run build",
     "cpdef": "cpy --flat src/mapgrammar.yaml ./out",
     "test": "jest",
@@ -24,6 +28,7 @@
     "url": "https://github.com/aoisupersix/B5G"
   },
   "dependencies": {
+    "commander": "^9.2.0",
     "fs": "0.0.2",
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",

@@ -9,7 +9,7 @@ export const createEmptySingleArgument = (): SingleArgument => {
         type: '',
         desc: '',
         opt: false,
-        last: null,
+        last: false,
         test_value_map_grammar: '',
         test_value_map_grammar_non_quote: '',
         test_value_csharp: '',

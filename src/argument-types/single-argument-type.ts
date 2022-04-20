@@ -24,6 +24,7 @@ export abstract class SingleArgumentType extends ArgumentType {
      * @param arg SingleArgument
      */
     public setTestValue(arg: SingleArgument): SingleArgument {
+        arg.syntax_for_test = this.bve5TestValue
         arg.test_value_map_grammar = this.bve5TestValue
         arg.test_value_map_grammar_non_quote = this.rowTestValue
         arg.test_value_csharp = this.csharpTestValue
@@ -33,6 +34,7 @@ export abstract class SingleArgumentType extends ArgumentType {
     public convertDefinitionToArgument(argDef: ArgumentDefinition): Argument {
         const argument: SingleArgument = {
             ...super.convertDefinitionToArgument(argDef),
+            syntax_for_test: this.bve5TestValue,
             test_value_map_grammar: this.bve5TestValue,
             test_value_map_grammar_non_quote: this.rowTestValue,
             test_value_csharp: this.csharpTestValue,

@@ -11,6 +11,7 @@ export const assertSetISingleArgumentTestValue = (
     argument: SingleArgument,
     type: SingleArgumentType
 ): void => {
+    expect(argument.syntax_for_test).toBe(type.bve5TestValue)
     expect(argument.test_value_map_grammar).toBe(type.bve5TestValue)
     expect(argument.test_value_map_grammar_non_quote).toBe(type.rowTestValue)
     expect(argument.test_value_csharp).toBe(type.csharpTestValue)

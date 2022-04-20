@@ -71,6 +71,46 @@ describe('convertMapStatement()', () => {
         })
     })
 
+    describe('generate syntax for test', () => {
+        it('generate no func syntax', () => {
+            mapDefinition.key = undefined
+            mapDefinition.sub_elem = undefined
+            mapDefinition.func = undefined
+            const state = convertMapStatement(mapDefinition)
+            expect(state.argPattern.length).toBe(1)
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element 'string_test_value';`
+            )
+        })
+
+        it('generate syntax1 syntax', () => {
+            mapDefinition.key = undefined
+            mapDefinition.sub_elem = undefined
+            const state = convertMapStatement(mapDefinition)
+            expect(state.argPattern.length).toBe(1)
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element.Function('string_test_value');`
+            )
+        })
+
+        it('generate syntax2 syntax', () => {
+            mapDefinition.sub_elem = undefined
+            const state = convertMapStatement(mapDefinition)
+            expect(state.argPattern.length).toBe(1)
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].Function('string_test_value');`
+            )
+        })
+
+        it('generate syntax3 syntax', () => {
+            const state = convertMapStatement(mapDefinition)
+            expect(state.argPattern.length).toBe(1)
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
+        })
+    })
+
     // 引数変換のUnitTestはconvertArgument.test.tsで行う
     describe('conver argument', () => {
         it('convert', () => {
@@ -95,6 +135,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern.length).toBe(1)
             expect(state.argPattern[0].useV1Parser).toBeTruthy()
             expect(state.argPattern[0].useV2Parser).toBeFalsy()
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
             expect(state.argPattern[0].version).toBe('1.00')
             expect(state.argPattern[0].args.length).toBe(1)
             expect(state.argPattern[0].args[0]).toMatchObject(argDefinition)
@@ -106,6 +149,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern.length).toBe(1)
             expect(state.argPattern[0].useV1Parser).toBeFalsy()
             expect(state.argPattern[0].useV2Parser).toBeTruthy()
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
             expect(state.argPattern[0].version).toBe('2.00')
             expect(state.argPattern[0].args.length).toBe(1)
             expect(state.argPattern[0].args[0]).toMatchObject(argDefinition)
@@ -118,6 +164,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern.length).toBe(1)
             expect(state.argPattern[0].args.length).toBe(0)
             expect(state.argPattern[0].version).toBe('2.02')
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function();`
+            )
         })
 
         it('single argPatterns single versions', () => {
@@ -130,6 +179,9 @@ describe('convertMapStatement()', () => {
             expect((state.args[0] as Argument).last).toBeTruthy()
             expect(state.argPattern[0].args[0].last).toBeTruthy()
             expect(state.argPattern[0].version).toBe('2.02')
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
         })
 
         it('single argPatterns multi versions', () => {
@@ -146,6 +198,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[0].version).toBe('1.00')
             expect(state.argPattern[0].useV1Parser).toBeTruthy()
             expect(state.argPattern[0].useV2Parser).toBeFalsy()
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
 
             // Second pattern
             expect(state.argPattern[1].args.length).toBe(1)
@@ -154,6 +209,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[1].version).toBe('2.02')
             expect(state.argPattern[1].useV1Parser).toBeFalsy()
             expect(state.argPattern[1].useV2Parser).toBeTruthy()
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
         })
 
         it('multi argPatterns single versions', () => {
@@ -178,6 +236,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[0].version).toBe('1.00')
             expect(state.argPattern[0].useV1Parser).toBeTruthy()
             expect(state.argPattern[0].useV2Parser).toBeFalsy()
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function();`
+            )
 
             // Second pattern (arg1)
             expect(state.argPattern[1].args.length).toBe(1)
@@ -186,6 +247,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[1].version).toBe('1.00')
             expect(state.argPattern[1].useV1Parser).toBeTruthy()
             expect(state.argPattern[1].useV2Parser).toBeFalsy()
+            expect(state.argPattern[1].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
 
             // Third pattern (arg1,arg2)
             expect(state.argPattern[2].args.length).toBe(2)
@@ -196,6 +260,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[2].version).toBe('1.00')
             expect(state.argPattern[2].useV1Parser).toBeTruthy()
             expect(state.argPattern[2].useV2Parser).toBeFalsy()
+            expect(state.argPattern[2].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value','string_test_value');`
+            )
         })
 
         it('multi argPatterns single versions with different order', () => {
@@ -220,6 +287,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[0].version).toBe('1.00')
             expect(state.argPattern[0].useV1Parser).toBeTruthy()
             expect(state.argPattern[0].useV2Parser).toBeFalsy()
+            expect(state.argPattern[0].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function();`
+            )
 
             // Second pattern (arg2,arg1)
             expect(state.argPattern[1].args.length).toBe(2)
@@ -230,6 +300,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[1].version).toBe('1.00')
             expect(state.argPattern[1].useV1Parser).toBeTruthy()
             expect(state.argPattern[1].useV2Parser).toBeFalsy()
+            expect(state.argPattern[1].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value','string_test_value');`
+            )
 
             // Third pattern (arg2)
             expect(state.argPattern[2].args.length).toBe(1)
@@ -238,6 +311,9 @@ describe('convertMapStatement()', () => {
             expect(state.argPattern[2].version).toBe('1.00')
             expect(state.argPattern[2].useV1Parser).toBeTruthy()
             expect(state.argPattern[2].useV2Parser).toBeFalsy()
+            expect(state.argPattern[2].syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
         })
 
         it('multi argPatterns multi versions', () => {
@@ -262,6 +338,9 @@ describe('convertMapStatement()', () => {
             expect(p1.version).toBe('1.00')
             expect(p1.useV1Parser).toBeTruthy()
             expect(p1.useV2Parser).toBeFalsy()
+            expect(p1.syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
             expect(p1.args.length).toBe(1)
             expect(p1.args[0].name).toBe('arg1')
             expect(p1.args[0].last).toBeTruthy()
@@ -271,6 +350,9 @@ describe('convertMapStatement()', () => {
             expect(p2.version).toBe('1.00')
             expect(p2.useV1Parser).toBeTruthy()
             expect(p2.useV2Parser).toBeFalsy()
+            expect(p2.syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value','string_test_value');`
+            )
             expect(p2.args.length).toBe(2)
             expect(p2.args[0].name).toBe('arg1')
             expect(p2.args[0].last).toBeFalsy()
@@ -282,6 +364,9 @@ describe('convertMapStatement()', () => {
             expect(p3.version).toBe('2.02')
             expect(p3.useV1Parser).toBeFalsy()
             expect(p3.useV2Parser).toBeTruthy()
+            expect(p3.syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value');`
+            )
             expect(p3.args.length).toBe(1)
             expect(p3.args[0].name).toBe('arg1')
             expect(p3.args[0].last).toBeTruthy()
@@ -291,6 +376,9 @@ describe('convertMapStatement()', () => {
             expect(p4.version).toBe('2.02')
             expect(p4.useV1Parser).toBeFalsy()
             expect(p4.useV2Parser).toBeTruthy()
+            expect(p4.syntax_for_test).toBe(
+                `Element['Key'].SubElement.Function('string_test_value','string_test_value');`
+            )
             expect(p4.args.length).toBe(2)
             expect(p4.args[0].name).toBe('arg1')
             expect(p4.args[0].last).toBeFalsy()

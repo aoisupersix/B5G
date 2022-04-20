@@ -1,59 +1,59 @@
 name: CI
 
 on:
-  push:
-    branches: [master]
+    push:
+        branches: [master]
 
 jobs:
-  generate-doc:
-    name: generate-doc
+    generate-doc:
+        name: generate-doc
 
-    runs-on: ubuntu-latest
+        runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v3
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Use Node.js 16.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      
-      - uses: actions/setup-python@v3
-        with:
-          python-version: '3.x'
+            - name: Use Node.js 16.x
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16.x
 
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Install typescript-json-schema
-        run: npm install -g typescript-json-schema
-      
-      - name: Install json-schema-for-humans
-        run: pip install json-schema-for-humans
+            - uses: actions/setup-python@v3
+              with:
+                  python-version: '3.x'
 
-      - name: Run build
-        run: npm run build
-      
-      - name: Make publish directory
-        run: mkdir public
+            - name: Install dependencies
+              run: npm install
 
-      - name: Run output
-        run: node out/output.js public/output.json
-      
-      - name: Generate JSON-Schema
-        run: typescript-json-schema tsconfig.json MapData > public/json-schema.json
-      
-      - name: Generate JSON-Schema documentation
-        run: generate-schema-doc public/json-schema.json public/index.html
-      
-      - name: deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: public
-          publish_branch: gh-pages
+            - name: Install typescript-json-schema
+              run: npm install -g typescript-json-schema
 
-      - uses: actions/upload-artifact@v3
-        with:
-          name: mapgrammar-generated
-          path: public
+            - name: Install json-schema-for-humans
+              run: pip install json-schema-for-humans
+
+            - name: Run build
+              run: npm run build
+
+            - name: Make publish directory
+              run: mkdir public
+
+            - name: Run generate map grammar definition
+              run: node out/cli.js generate public/generated.json
+
+            - name: Generate JSON-Schema
+              run: typescript-json-schema tsconfig.json MapData > public/json-schema.json
+
+            - name: Generate JSON-Schema documentation
+              run: generate-schema-doc public/json-schema.json public/index.html
+
+            - name: deploy
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  publish_dir: public
+                  publish_branch: gh-pages
+
+            - uses: actions/upload-artifact@v3
+              with:
+                  name: mapgrammar-generated
+                  path: public
