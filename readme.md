@@ -29,4 +29,6 @@ getDefaultMapData().then(map => {
 
 # Grammar Definition
 
-[src/mapgrammar.yaml](https://github.com/aoisupersix/B5G/blob/master/src/mapgrammar.yaml)
+- Documentation: https://aoisupersix.github.io/B5G
+- JSON Schema: https://aoisupersix.github.io/B5G/json-schema.json
+- Generated JSON file: https://aoisupersix.github.io/B5G/output.json
