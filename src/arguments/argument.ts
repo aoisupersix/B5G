@@ -26,5 +26,5 @@ export interface Argument {
      * 最後の引数か？
      * 最後の引数以外はカンマを付ける関係で使う
      */
-    last: boolean | null
+    last: boolean
 }

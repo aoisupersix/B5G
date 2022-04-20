@@ -14,17 +14,17 @@ export interface MapDefinition {
     /**
      * キー名
      */
-    key: string | undefined
+    key?: string
 
     /**
      * マップ副要素名
      */
-    sub_elem: string | undefined
+    sub_elem?: string
 
     /**
      * マップ関数名
      */
-    func: string | undefined
+    func?: string
 
     /**
      * ステートメントが有効なマップバージョン
@@ -47,7 +47,7 @@ export interface MapDefinition {
     /**
      * テストをスキップするか？
      */
-    skip_test: boolean | undefined
+    skip_test?: boolean
 }
 
 // #region IMapDefinition判定用便利関数

@@ -94,8 +94,8 @@ export const convertMapStatement = (
     const statement: MapStatement = {
         ...mapDefinition,
         elem_lower: mapDefinition.elem.toLowerCase(),
-        sub_elem_lower: mapDefinition.sub_elem?.toLowerCase() ?? null,
-        func_lower: mapDefinition.func?.toLowerCase() ?? null,
+        sub_elem_lower: mapDefinition.sub_elem?.toLowerCase(),
+        func_lower: mapDefinition.func?.toLowerCase(),
         syntax1: mapDef.isSyntax1(mapDefinition),
         syntax2: mapDef.isSyntax2(mapDefinition),
         syntax3: mapDef.isSyntax3(mapDefinition),
