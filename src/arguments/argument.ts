@@ -18,6 +18,11 @@ export interface Argument {
     desc: string
 
     /**
+     * テスト用値のBve上での構文を示す文字列
+     */
+    syntax_for_test: string
+
+    /**
      * 省略可能な引数か？
      */
     opt: boolean

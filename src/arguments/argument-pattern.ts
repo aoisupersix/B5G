@@ -24,4 +24,9 @@ export interface ArgumentPattern {
      * テストにV2Parserを使用するか?
      */
     useV2Parser: boolean
+
+    /**
+     * Bve上での構文を示す文字列（引数にはテスト用の値が出力される）
+     */
+    syntax_for_test: string
 }

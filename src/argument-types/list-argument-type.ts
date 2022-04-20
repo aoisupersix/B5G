@@ -21,19 +21,23 @@ export class ListArgumentType extends ArgumentType {
     public convertDefinitionToArgument(argDef: ArgumentDefinition): Argument {
         // TODO: 本当にargDefがIVariableLengthArgumentDefinitionを実装しているか確認が必要
         const vArgDef = argDef as VariableLengthArgumentDefinition
+        const innerArgs = this.generateRangeArgs(
+            vArgDef.name,
+            vArgDef.desc,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            allSingleTypes.find((t) => t.isType(vArgDef.inner_type))!,
+            vArgDef.counter_first,
+            generateArgumentCount
+        )
 
         const argument: ListArgument = {
             ...super.convertDefinitionToArgument(argDef),
             is_list: true,
             inner_type: vArgDef.inner_type,
-            inner_arguments: this.generateRangeArgs(
-                vArgDef.name,
-                vArgDef.desc,
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                allSingleTypes.find((t) => t.isType(vArgDef.inner_type))!,
-                vArgDef.counter_first,
-                generateArgumentCount
-            ),
+            inner_arguments: innerArgs,
+            syntax_for_test: innerArgs
+                .map((arg) => arg.test_value_map_grammar)
+                .join(','),
         }
 
         return argument
@@ -54,20 +58,16 @@ export class ListArgumentType extends ArgumentType {
         start: number,
         count: number
     ): SingleArgument[] {
-        const args = Array.from(Array(count), (v, k) => k + start).map(
-            () =>
-                ({
-                    name: name,
-                    type: type.type,
-                    desc: description,
-                    opt: true,
-                    last: false,
-                    test_value_map_grammar: type.bve5TestValue,
-                    test_value_map_grammar_non_quote: type.rowTestValue,
-                    test_value_csharp: type.csharpTestValue,
-                } as SingleArgument)
-        )
+        const args = Array.from(Array(count), (v, k) => k + start).map(() => {
+            const innerDef: ArgumentDefinition = {
+                name: name,
+                type: type.type,
+                desc: description,
+                opt: true,
+            }
 
+            return type.convertDefinitionToArgument(innerDef) as SingleArgument
+        })
         args[0].opt = false
         args.slice(-1)[0].last = true
 

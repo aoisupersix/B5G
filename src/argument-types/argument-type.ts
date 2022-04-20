@@ -31,6 +31,7 @@ export abstract class ArgumentType {
             name: argDef.name,
             type: argDef.type,
             desc: argDef.desc,
+            syntax_for_test: '',
             opt: argDef.opt,
             last: false,
         }
