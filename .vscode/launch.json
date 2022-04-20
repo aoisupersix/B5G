@@ -26,6 +26,6 @@
         "${workspaceFolder}/src/output.ts"
       ],
       "console": "integratedTerminal"
-    },
+    }
   ]
 }
