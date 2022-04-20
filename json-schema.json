@@ -1,0 +1,216 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "Argument": {
+            "description": "引数定義",
+            "properties": {
+                "desc": {
+                    "description": "引数の説明",
+                    "type": "string"
+                },
+                "last": {
+                    "description": "最後の引数か？\n最後の引数以外はカンマを付ける関係で使う",
+                    "type": [
+                        "null",
+                        "boolean"
+                    ]
+                },
+                "name": {
+                    "description": "引数名",
+                    "type": "string"
+                },
+                "opt": {
+                    "description": "省略可能な引数か？",
+                    "type": "boolean"
+                },
+                "type": {
+                    "description": "引数の型",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ArgumentDefinition": {
+            "description": "mapgrammar.yamlの引数定義スキーマ",
+            "properties": {
+                "desc": {
+                    "description": "引数の説明",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "引数名",
+                    "type": "string"
+                },
+                "opt": {
+                    "description": "省略可能な引数か？",
+                    "type": "boolean"
+                },
+                "type": {
+                    "description": "引数の型",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "ArgumentPattern": {
+            "description": "構文の引数がとり得るパターン定義\nテストの生成時に使います。",
+            "properties": {
+                "args": {
+                    "description": "対象の引数",
+                    "items": {
+                        "$ref": "#/definitions/Argument"
+                    },
+                    "type": "array"
+                },
+                "useV1Parser": {
+                    "description": "テストにV1Parserを使用するか？",
+                    "type": "boolean"
+                },
+                "useV2Parser": {
+                    "description": "テストにV2Parserを使用するか?",
+                    "type": "boolean"
+                },
+                "version": {
+                    "description": "テスト対象のBve5マップバージョン",
+                    "type": "string"
+                }
+            },
+            "type": "object"
+        },
+        "MapStatement": {
+            "description": "IMapDefinitionから付加情報を追加したマップ構文定義",
+            "properties": {
+                "argPattern": {
+                    "description": "引数のとり得るパターン（結果用）",
+                    "items": {
+                        "$ref": "#/definitions/ArgumentPattern"
+                    },
+                    "type": "array"
+                },
+                "argPatterns": {
+                    "description": "関数が取りうる引数のリスト\nカンマ区切りの文字列で、引数がない場合は空文字",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "args": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/ArgumentDefinition"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "items": {
+                                "$ref": "#/definitions/Argument"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "description": "引数\nIMapStatementがこのインタフェースを継承している関係で、同名で型の異なる変数(つまりargs)が定義できない。\nそのため暫定措置として、argsはIArgumentDefinition(yaml読み込み時)とIArgumentの両方を許可している。"
+                },
+                "elem": {
+                    "description": "マップ要素名",
+                    "type": "string"
+                },
+                "elem_lower": {
+                    "description": "小文字のマップ要素名",
+                    "type": "string"
+                },
+                "func": {
+                    "description": "マップ関数名",
+                    "type": "string"
+                },
+                "func_lower": {
+                    "description": "小文字の関数名",
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "key": {
+                    "description": "キー名",
+                    "type": "string"
+                },
+                "noarg": {
+                    "description": "引数を持たないステートメントか？",
+                    "type": "boolean"
+                },
+                "nofunc": {
+                    "description": "関数名を持たないステートメントか？",
+                    "type": "boolean"
+                },
+                "skip_test": {
+                    "description": "テストをスキップするか？",
+                    "type": "boolean"
+                },
+                "sub_elem": {
+                    "description": "マップ副要素名",
+                    "type": "string"
+                },
+                "sub_elem_lower": {
+                    "description": "小文字のマップ副要素名",
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "syntax1": {
+                    "description": "構文タイプ1か？",
+                    "type": "boolean"
+                },
+                "syntax2": {
+                    "description": "構文タイプ2か？",
+                    "type": "boolean"
+                },
+                "syntax3": {
+                    "description": "構文タイプ3か？",
+                    "type": "boolean"
+                },
+                "versions": {
+                    "description": "ステートメントが有効なマップバージョン",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "description": "テンプレートエンジンに食わせるマップデータ",
+    "properties": {
+        "elems": {
+            "description": "全構文のマップ要素名",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "funcs": {
+            "description": "全構文のマップ関数名",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        },
+        "states": {
+            "description": "構文の定義",
+            "items": {
+                "$ref": "#/definitions/MapStatement"
+            },
+            "type": "array"
+        },
+        "subElems": {
+            "description": "全構文のマップ副要素名",
+            "items": {
+                "type": "string"
+            },
+            "type": "array"
+        }
+    },
+    "type": "object"
+}
+
