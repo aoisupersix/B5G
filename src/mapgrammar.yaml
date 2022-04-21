@@ -261,7 +261,7 @@
   argPatterns:
       - 'X,Y'
       - 'X,Y,RadiusH'
-      - 'Y,Y,RadiusV'
+      - 'X,Y,RadiusH,RadiusV'
 - elem: Track
   sub_elem: Cant
   key: TrackKey
