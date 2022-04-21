@@ -1,4 +1,6 @@
 import * as handlebars from 'handlebars'
+import * as helpers from 'handlebars-helpers'
+
 import { MapData } from './map-data/map-data'
 
 /**
@@ -7,9 +9,7 @@ import { MapData } from './map-data/map-data'
  * @param mapData 出力対象のデータ
  */
 export const render = (template: string, mapData: MapData): string => {
-    handlebars.registerHelper('toLowerCase', function (str: string) {
-        return str.toLowerCase()
-    })
+    helpers.default({ handlebars: handlebars })
     const compiledTemplate = handlebars.compile(template)
     return compiledTemplate(mapData)
 }

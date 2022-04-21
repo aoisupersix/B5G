@@ -60,6 +60,10 @@ getDefaultMapData()
     .catch((err) => console.error(err))
 ```
 
+# Supported Handlebar helpers
+
+[handlebars-helpers](https://github.com/helpers/handlebars-helpers)
+
 # Grammar Documentation & Sample
 
 -   Documentation: https://aoisupersix.github.io/B5G
