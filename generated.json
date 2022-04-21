@@ -1357,7 +1357,7 @@
       "argPatterns": [
         "X,Y",
         "X,Y,RadiusH",
-        "Y,Y,RadiusV"
+        "X,Y,RadiusH,RadiusV"
       ],
       "elem_lower": "track",
       "func_lower": "position",
@@ -1441,9 +1441,9 @@
         {
           "args": [
             {
-              "name": "Y",
+              "name": "X",
               "type": "double?",
-              "desc": "自軌道からの y 座標 [m]",
+              "desc": "自軌道からの x 座標 [m]",
               "syntax_for_test": "1.0",
               "opt": false,
               "last": false,
@@ -1457,6 +1457,17 @@
               "desc": "自軌道からの y 座標 [m]",
               "syntax_for_test": "1.0",
               "opt": false,
+              "last": false,
+              "test_value_map_grammar": "1.0",
+              "test_value_map_grammar_non_quote": "1.0",
+              "test_value_csharp": "1.0"
+            },
+            {
+              "name": "RadiusH",
+              "type": "double?",
+              "desc": "現在の距離程以降の自軌道との平面曲線相対半径 [m] (0: 直線)",
+              "syntax_for_test": "1.0",
+              "opt": true,
               "last": false,
               "test_value_map_grammar": "1.0",
               "test_value_map_grammar_non_quote": "1.0",
@@ -1477,7 +1488,7 @@
           "version": "2.02",
           "useV1Parser": false,
           "useV2Parser": true,
-          "syntax_for_test": "Track['TrackKey'].Position(1.0,1.0,1.0);"
+          "syntax_for_test": "Track['TrackKey'].Position(1.0,1.0,1.0,1.0);"
         },
         {
           "args": [
@@ -1553,9 +1564,9 @@
         {
           "args": [
             {
-              "name": "Y",
+              "name": "X",
               "type": "double?",
-              "desc": "自軌道からの y 座標 [m]",
+              "desc": "自軌道からの x 座標 [m]",
               "syntax_for_test": "1.0",
               "opt": false,
               "last": false,
@@ -1569,6 +1580,17 @@
               "desc": "自軌道からの y 座標 [m]",
               "syntax_for_test": "1.0",
               "opt": false,
+              "last": false,
+              "test_value_map_grammar": "1.0",
+              "test_value_map_grammar_non_quote": "1.0",
+              "test_value_csharp": "1.0"
+            },
+            {
+              "name": "RadiusH",
+              "type": "double?",
+              "desc": "現在の距離程以降の自軌道との平面曲線相対半径 [m] (0: 直線)",
+              "syntax_for_test": "1.0",
+              "opt": true,
               "last": false,
               "test_value_map_grammar": "1.0",
               "test_value_map_grammar_non_quote": "1.0",
@@ -1589,7 +1611,7 @@
           "version": "2.00",
           "useV1Parser": false,
           "useV2Parser": true,
-          "syntax_for_test": "Track['TrackKey'].Position(1.0,1.0,1.0);"
+          "syntax_for_test": "Track['TrackKey'].Position(1.0,1.0,1.0,1.0);"
         },
         {
           "args": [
@@ -1665,9 +1687,9 @@
         {
           "args": [
             {
-              "name": "Y",
+              "name": "X",
               "type": "double?",
-              "desc": "自軌道からの y 座標 [m]",
+              "desc": "自軌道からの x 座標 [m]",
               "syntax_for_test": "1.0",
               "opt": false,
               "last": false,
@@ -1681,6 +1703,17 @@
               "desc": "自軌道からの y 座標 [m]",
               "syntax_for_test": "1.0",
               "opt": false,
+              "last": false,
+              "test_value_map_grammar": "1.0",
+              "test_value_map_grammar_non_quote": "1.0",
+              "test_value_csharp": "1.0"
+            },
+            {
+              "name": "RadiusH",
+              "type": "double?",
+              "desc": "現在の距離程以降の自軌道との平面曲線相対半径 [m] (0: 直線)",
+              "syntax_for_test": "1.0",
+              "opt": true,
               "last": false,
               "test_value_map_grammar": "1.0",
               "test_value_map_grammar_non_quote": "1.0",
@@ -1701,7 +1734,7 @@
           "version": "1.00",
           "useV1Parser": true,
           "useV2Parser": false,
-          "syntax_for_test": "Track['TrackKey'].Position(1.0,1.0,1.0);"
+          "syntax_for_test": "Track['TrackKey'].Position(1.0,1.0,1.0,1.0);"
         }
       ]
     },
