@@ -1,6 +1,6 @@
 {
   "name": "b5g",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Convenience package to generate templates around Bve5 syntax",
   "bin": {
     "b5g": "out/cli.js"
