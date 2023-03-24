@@ -28,7 +28,7 @@
     "url": "https://github.com/aoisupersix/B5G"
   },
   "dependencies": {
-    "commander": "^9.2.0",
+    "commander": "^10.0.0",
     "fs": "0.0.2",
     "fs-extra": "^10.1.0",
     "handlebars": "^4.7.7",
